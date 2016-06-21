@@ -241,4 +241,12 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         App.sDb.insert(liaomeis, ConflictAlgorithm.Replace);
     }
 
+    @Override public void requestDataRefresh() {
+        super.requestDataRefresh();
+        mPage = 1;
+        loadData(true);
+    }
+
+
+
 }

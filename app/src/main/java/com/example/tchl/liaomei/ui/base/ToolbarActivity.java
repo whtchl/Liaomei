@@ -53,11 +53,11 @@ public abstract class ToolbarActivity extends BaseActivity {
         mAppBar.setAlpha(alpha);
     }
 
-/*    protected void hideOrShowToolbar() {
+    protected void hideOrShowToolbar() {
         mAppBar.animate()
                 .translationY(mIsHidden ? 0 : -mAppBar.getHeight())
                 .setInterpolator(new DecelerateInterpolator(2))
                 .start();
         mIsHidden = !mIsHidden;
-    }*/
+    }
 }

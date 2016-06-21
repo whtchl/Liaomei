@@ -47,15 +47,20 @@ public abstract class SwipeRefreshBaseActivity extends ToolbarActivity
 
 
     @Override public void requestDataRefresh() {
+        Log.e(TAG,"tchl  requestDataRefresh set to true");
         mIsRequestDataRefresh = true;
     }
 
 
     public void setRefresh(boolean requestDataRefresh) {
+        Log.e(TAG,"tchl  mSwipeRefreshLayout  1");
         if (mSwipeRefreshLayout == null) {
+            Log.e(TAG,"tchl  mSwipeRefreshLayout 2");
             return;
         }
+        Log.e(TAG,"tchl  mSwipeRefreshLayout 3");
         if (!requestDataRefresh) {
+            Log.e(TAG,"tchl  mSwipeRefreshLayout  4");
             mIsRequestDataRefresh = false;
             // 防止刷新消失太快，让子弹飞一会儿.
             mSwipeRefreshLayout.postDelayed(new Runnable() {
