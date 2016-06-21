@@ -84,7 +84,7 @@ public class LiaomeiListAdapter extends RecyclerView.Adapter<LiaomeiListAdapter.
         }
 
         @Override public void onClick(View v){
-           ;// mOnLiaomeiTouchListener.onTouch(v,liaomeiView,card,liaomei);
+            mOnLiaomeiTouchListener.onTouch(v,liaomeiView,card,liaomei);
         }
 
     }

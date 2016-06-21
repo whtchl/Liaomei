@@ -1,7 +1,10 @@
 package com.example.tchl.liaomei.ui;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +30,7 @@ import com.example.tchl.liaomei.GankApi;
 import com.example.tchl.liaomei.R;
 import com.example.tchl.liaomei.data.LiaomeiData;
 import com.example.tchl.liaomei.data.entity.Liaomei;
+import com.example.tchl.liaomei.func.OnLiaomeiTouchListener;
 import com.example.tchl.liaomei.ui.adapter.LiaomeiListAdapter;
 import com.example.tchl.liaomei.ui.base.SwipeRefreshBaseActivity;
 import com.example.tchl.liaomei.ui.base.ToolbarActivity;
@@ -44,7 +48,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 public class MainActivity extends SwipeRefreshBaseActivity {
     private static final String TAG = "MainActivity tchl";
     private static final int PRELOAD_SIZE = 6;
@@ -55,7 +60,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
     private LiaomeiListAdapter mLiaomeiListAdapter;
     private List<Liaomei> mLiaomeiList;
     private int mPage = 1;
-
+    private boolean mLiaomeiBeTouched;
     @Override protected int provideContentViewId() {
         return R.layout.activity_main;
     }
@@ -68,7 +73,6 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         query.appendOrderDescBy("publishedAt");
         query.limit(0,10);
         mLiaomeiList.addAll(App.sDb.query(query));
-        Log.e(TAG,"tchl !!!!!!!!!!!!!!!");
         setupRecyclerView();
     }
 
@@ -83,7 +87,77 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                     .setAction(R.string.i_know, v -> {
                     }).show();
         });
+
+        mRecyclerView.addOnScrollListener(getOnBottomListener(layoutManager));
+        mLiaomeiListAdapter.setOnLiaomeiTouchListener(
+               new OnLiaomeiTouchListener() {
+                   @Override
+                   public void onTouch(View v, View liaomeiView, View card, Liaomei liaomei) {
+                       Log.e(TAG,"tchl onTouch0");
+                       if(liaomei == null) return;
+                       Log.e(TAG,"tchl onTouch1");
+                       if (v==liaomeiView && !mLiaomeiBeTouched){
+                           mLiaomeiBeTouched =  true;
+                           Log.e(TAG,"tchl onTouch2");
+                           Picasso.with(getApplicationContext()).load(liaomei.url).fetch(new Callback() {
+                               @Override
+                               public void onSuccess() {
+                                   mLiaomeiBeTouched = false;
+                                   Log.e(TAG,"tchl onTouch3");
+                                   Intent intent =new Intent(getApplicationContext(), PictureActivity.class);
+                                   startPictureActivity(liaomei,liaomeiView);
+                                   //Toast.makeText(getApplicationContext(),"load pic",Toast.LENGTH_LONG);
+                               }
+                               @Override
+                               public void onError() {
+                                   mLiaomeiBeTouched = false;
+                                   Log.e(TAG,"tchl onTouch4");
+                                   //Toast.makeText(getApplicationContext(),"load error pic",Toast.LENGTH_LONG);
+                               }
+                           });
+                       }
+                   }
+               }
+       );
     }
+
+    private RecyclerView.OnScrollListener getOnBottomListener(StaggeredGridLayoutManager layoutManager) {
+        return new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.d(TAG,"isSlideToBottom:" + isSlideToBottom(recyclerView));
+                if (!mSwipeRefreshLayout.isRefreshing() && isSlideToBottom(recyclerView)) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    mPage += 1;
+                    loadData(false);
+                }
+            }
+        };
+    }
+	
+	private void startPictureActivity(Liaomei liaomei,View transitView){
+        Intent intent = PictureActivity.newIntent(MainActivity.this,liaomei.url,liaomei.desc);
+        ActivityOptionsCompat optionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                MainActivity.this,transitView,PictureActivity.TRANSIT_PIC);
+        try{
+            ActivityCompat.startActivity(MainActivity.this,intent,optionCompat.toBundle());
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            startActivity(intent);
+        }
+    }
+
+    protected boolean isSlideToBottom(RecyclerView recyclerView) {
+        if (recyclerView == null) return false;
+        Log.e(TAG,"computeVerticalScrollExtent+computeVerticalScrollOffset>= computeVerticalScrollRange  ? ||"+
+                recyclerView.computeVerticalScrollExtent() +"  + " + recyclerView.computeVerticalScrollOffset()+"  ?  "
+                +recyclerView.computeVerticalScrollRange());
+        if (recyclerView.computeVerticalScrollExtent()+ recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange())
+            return true;
+        return false;
+    }
+
     @Override protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         Log.e("TAG tchl","onPostCreate");
@@ -92,7 +166,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
     }
 
     private void loadData(boolean clean) {
-        Log.e("TAG tchl", "loadData");
+        Log.e("TAG tchl", "loadData:"+clean);
         Subscription sb = sGankIO.getMeizhiData(mPage)
                 .map(new Func1<LiaomeiData, List<Liaomei>>() {
                     @Override
@@ -129,6 +203,8 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                             public void call(List<Liaomei> liaomeis) {
                                 Log.e("TAG tchl", " subscribe");
                                 if (clean) mLiaomeiList.clear();
+                                Log.e(TAG, "LiaomeiList size = " +
+                                        mLiaomeiList.size());
                                 mLiaomeiList.addAll(liaomeis);
                                 mLiaomeiListAdapter.notifyDataSetChanged();
                                 setRefresh(false);

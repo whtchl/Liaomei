@@ -37,5 +37,7 @@ dependencies {
     compile rootProject.ext.dependencies["retrofit"]
     compile rootProject.ext.dependencies["rxandroid"]
     compile rootProject.ext.dependencies["okhttp"]
+    compile rootProject.ext.dependencies["picasso"]
+
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
 }
