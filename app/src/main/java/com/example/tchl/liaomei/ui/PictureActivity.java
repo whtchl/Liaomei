@@ -2,18 +2,26 @@ package com.example.tchl.liaomei.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.tchl.liaomei.R;
 import com.example.tchl.liaomei.ui.base.ToolbarActivity;
+import com.example.tchl.liaomei.util.RxLiaomei;
+import com.example.tchl.liaomei.util.Shares;
+import com.example.tchl.liaomei.util.Toasts;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by tchl on 2016-06-21.
@@ -49,6 +57,30 @@ public class PictureActivity extends ToolbarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.action_share:
+                RxLiaomei.saveImageAndGetPathObservable(this,mImageUrl,mImageTitle)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Uri>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onNext(Uri uri) {
+                        Shares.shareImage(getApplicationContext(),uri,getApplicationContext().getString(R.string.share_liaomei_to));
+                    }
+                });
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

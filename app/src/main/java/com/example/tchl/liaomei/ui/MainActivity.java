@@ -41,7 +41,7 @@ import com.litesuits.orm.db.model.ConflictAlgorithm;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
+
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
