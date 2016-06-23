@@ -12,10 +12,12 @@ import com.example.tchl.liaomei.R;
 public class Shares {
 
     public static void shareImage(Context context, Uri uri, String title) {
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         shareIntent.setType("image/jpeg");
+        //shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(shareIntent, title));
     }
     public  static void share(Context context,String extraText){

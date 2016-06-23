@@ -21,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -62,7 +63,11 @@ public class PictureActivity extends ToolbarActivity {
             case R.id.action_share:
                 RxLiaomei.saveImageAndGetPathObservable(this,mImageUrl,mImageTitle)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Uri>() {
+                .subscribe(uri -> Shares.shareImage(this, uri,
+                        getString(R.string.share_liaomei_to)),
+                        error ->Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG).show());
+
+                     /*   new Subscriber<Uri>() {
                     @Override
                     public void onCompleted() {
 
@@ -78,7 +83,8 @@ public class PictureActivity extends ToolbarActivity {
                     public void onNext(Uri uri) {
                         Shares.shareImage(getApplicationContext(),uri,getApplicationContext().getString(R.string.share_liaomei_to));
                     }
-                });
+                });*/
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
