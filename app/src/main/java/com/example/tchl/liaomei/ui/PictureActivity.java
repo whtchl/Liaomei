@@ -39,6 +39,10 @@ public class PictureActivity extends ToolbarActivity {
     @Bind(R.id.picture)
     ImageView mImageView;
 
+    @Override public boolean canBack() {
+        return true;
+    }
+
     @Override
     protected  int provideContentViewId(){  return R.layout.activity_picture;}
 

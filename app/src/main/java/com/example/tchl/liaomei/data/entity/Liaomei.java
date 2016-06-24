@@ -14,7 +14,7 @@ import java.util.Date;
     @Column("used") public boolean used;
     @Column("createdAt") public Date createAt;
     @Column("updatedAt")public Date updatedAt;
-    @Column("publishedAt") public Date publidth;
+    @Column("publishedAt") public Date publishedAt;
     @Column("imageHeight") public int imageHshedAt;
     @Column("imageWidth") public int imageWieight;
 

@@ -5,46 +5,33 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.Subscription;
 
 import com.example.tchl.liaomei.App;
-import com.example.tchl.liaomei.DrakeetFactory;
-import com.example.tchl.liaomei.GankApi;
 import com.example.tchl.liaomei.R;
 import com.example.tchl.liaomei.data.LiaomeiData;
 import com.example.tchl.liaomei.data.entity.Liaomei;
 import com.example.tchl.liaomei.func.OnLiaomeiTouchListener;
 import com.example.tchl.liaomei.ui.adapter.LiaomeiListAdapter;
-import com.example.tchl.liaomei.ui.base.GangActivity;
+import com.example.tchl.liaomei.ui.base.GankActivity;
 import com.example.tchl.liaomei.ui.base.SwipeRefreshBaseActivity;
-import com.example.tchl.liaomei.ui.base.ToolbarActivity;
 import com.example.tchl.liaomei.util.Once;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -117,9 +104,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                                }
                            });
                        }else if (v == card) {
-                           //startGankActivity(meizhi.publishedAt);
-                           Intent intent = new Intent(getApplicationContext(), GangActivity.class);
-                           startActivity(intent);
+                           startGankActivity(liaomei.publishedAt);
                        }
                    }
                }
@@ -139,6 +124,12 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                 }
             }
         };
+    }
+
+    private void startGankActivity(Date publishedAt){
+        Intent intent = new Intent(this,GankActivity.class);
+        intent.putExtra(GankActivity.EXTRA_GANK_DATE,publishedAt);
+        startActivity(intent);
     }
 	
 	private void startPictureActivity(Liaomei liaomei,View transitView){
@@ -208,8 +199,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                             public void call(List<Liaomei> liaomeis) {
                                 Log.e("TAG tchl", " subscribe");
                                 if (clean) mLiaomeiList.clear();
-                                Log.e(TAG, "LiaomeiList size = " +
-                                        mLiaomeiList.size());
+                                Log.e(TAG, "LiaomeiList size = " + mLiaomeiList.size());
                                 mLiaomeiList.addAll(liaomeis);
                                 mLiaomeiListAdapter.notifyDataSetChanged();
                                 setRefresh(false);
@@ -237,7 +227,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
             Log.e(TAG, "tchl123 updateAt: " + liaomeiData.results.get(i).updatedAt);
             Log.e(TAG, "tchl123 used:" + liaomeiData.results.get(i).used);
             Log.e(TAG, "tchl123 id:" + liaomeiData.results.get(i).id);
-            Log.e(TAG, "tchl123 publidth:" + liaomeiData.results.get(i).publidth);
+            Log.e(TAG, "tchl123 publidth:" + liaomeiData.results.get(i).publishedAt);
         }
     }
 

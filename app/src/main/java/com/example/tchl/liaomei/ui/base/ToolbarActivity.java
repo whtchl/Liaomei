@@ -49,6 +49,17 @@ public abstract class ToolbarActivity extends BaseActivity {
     public boolean canBack() {
         return false;
     }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     protected void setAppBarAlpha(float alpha) {
         mAppBar.setAlpha(alpha);
     }
