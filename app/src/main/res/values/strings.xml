@@ -6,8 +6,9 @@
     <string name="i_know">知道了</string>
     <string name="bk_text">江东橘子</string>
 
-
-
+    <string name="liaomei">Liaomei</string>
+    <string name="try_again">再试试...</string>
+    <string name="picture_has_save_to">图片已保存至 %s 文件夹</string>
     <string name="action_share">分享</string>
     <string name="action_save">保存</string>
     <string name="share_liaomei_to">分享撩妹到...</string>

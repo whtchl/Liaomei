@@ -24,6 +24,9 @@
             android:name=".ui.PictureActivity"
             android:label="@string/title_activity_picture"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.base.GangActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

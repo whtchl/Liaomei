@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.example.tchl.liaomei.R;
 import com.squareup.picasso.Picasso;
 import android.os.Environment;
 import android.util.Log;
@@ -86,7 +87,7 @@ public class RxLiaomei {
          }).flatMap(new Func1<Bitmap, rx.Observable<Uri>>() {
              @Override
              public rx.Observable<Uri> call(Bitmap bitmap) {
-                 File appDir = new File(Environment.getExternalStorageDirectory(),"Liaomei");
+                 File appDir = new File(Environment.getExternalStorageDirectory(),context.getString( R.string.liaomei));
                  if(!appDir.exists()){
                      appDir.mkdir();
                  }

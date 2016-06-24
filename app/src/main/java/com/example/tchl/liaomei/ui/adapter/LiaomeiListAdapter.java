@@ -46,7 +46,7 @@ public class LiaomeiListAdapter extends RecyclerView.Adapter<LiaomeiListAdapter.
     public void onBindViewHolder(final ViewHolder viewHolder,final int position){
         Liaomei liaomei = mList.get(position);
         String text = liaomei.desc.length() > Constants.limit ? liaomei.desc.substring(0,Constants.limit)
-                +Constants.ellipsis:liaomei.desc;
+                +Constants.ellipsis : liaomei.desc;
         Log.e(TAG,"text:"+text);
         viewHolder.liaomei = liaomei;
         viewHolder.titleView.setText(text);

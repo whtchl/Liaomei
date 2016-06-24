@@ -32,6 +32,7 @@ import com.example.tchl.liaomei.data.LiaomeiData;
 import com.example.tchl.liaomei.data.entity.Liaomei;
 import com.example.tchl.liaomei.func.OnLiaomeiTouchListener;
 import com.example.tchl.liaomei.ui.adapter.LiaomeiListAdapter;
+import com.example.tchl.liaomei.ui.base.GangActivity;
 import com.example.tchl.liaomei.ui.base.SwipeRefreshBaseActivity;
 import com.example.tchl.liaomei.ui.base.ToolbarActivity;
 import com.example.tchl.liaomei.util.Once;
@@ -115,6 +116,10 @@ public class MainActivity extends SwipeRefreshBaseActivity {
                                    //Toast.makeText(getApplicationContext(),"load error pic",Toast.LENGTH_LONG);
                                }
                            });
+                       }else if (v == card) {
+                           //startGankActivity(meizhi.publishedAt);
+                           Intent intent = new Intent(getApplicationContext(), GangActivity.class);
+                           startActivity(intent);
                        }
                    }
                }
