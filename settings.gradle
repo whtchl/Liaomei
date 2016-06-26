@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':smooth-app-bar-layout'
+project(':smooth-app-bar-layout').projectDir = new File('libraries/smooth-app-bar-layout')
