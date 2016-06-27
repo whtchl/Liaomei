@@ -11,5 +11,7 @@
     <color name="bk_pic">#00b0f2</color>
     <color name="md_light_blue_A200">#40c4ff</color>
     <color name="bg_gank">#ffffff</color>
+    <color name="white">#ffffff</color>
+
 
 </resources>
