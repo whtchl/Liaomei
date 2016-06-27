@@ -9,7 +9,7 @@ public class DrakeetFactory {
     static GankApi sGankIOSingleton = null;
     static DrakeetApi sDrakeetSingleton = null;
     public static final int meizhiSize = 10;
-    public static final int gankSize =4;
+    public static final int gankSize =5;
 
 
     public static GankApi getGankIOSingleton() {

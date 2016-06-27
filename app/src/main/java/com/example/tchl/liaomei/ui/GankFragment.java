@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,13 +83,14 @@ public class GankFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_gank, container, false);
         ButterKnife.bind(this, rootView);
-
+        initRecyclerView();
         return rootView;
     }
 
 
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e(TAG,"onViewCreated:"+mGankList.size() );
         if (mGankList.size() == 0) loadData();
 /*        if (mVideoPreviewUrl != null) {
             Glide.with(this).load(mVideoPreviewUrl).into(mVideoImageView);
@@ -119,7 +121,10 @@ public class GankFragment extends Fragment{
                 .subscribe(new Action1<List<Gank>>() {
                     @Override
                     public void call(List<Gank> ganks) {
-                        if(ganks.isEmpty()){  showEmptyView();}
+                        if(ganks.isEmpty()){
+                            Log.e(TAG,"tchl gank s empty. showEmptyView");
+                            showEmptyView();
+                        }
                         else{
                             mAdapter.notifyDataSetChanged();
                         }
@@ -139,6 +144,8 @@ public class GankFragment extends Fragment{
         if (results.拓展资源List != null) mGankList.addAll(results.拓展资源List);
         if (results.瞎推荐List != null) mGankList.addAll(results.瞎推荐List);
         if (results.休息视频List != null) mGankList.addAll(0, results.休息视频List);
+        Log.e(TAG,"addAllResult:"+ mGankList.size());
+
         return mGankList;
     }
     private void showEmptyView() {mEmptyViewStub.inflate();}
