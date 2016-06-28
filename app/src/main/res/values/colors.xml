@@ -9,9 +9,9 @@
     <color name="refresh_progress_3">@color/theme_primary</color>
 
     <color name="bk_pic">#00b0f2</color>
-    <color name="md_light_blue_A200">#40c4ff</color>
+<!--    <color name="md_light_blue_A200">#40c4ff</color>-->
     <color name="bg_gank">#ffffff</color>
     <color name="white">#ffffff</color>
-
+   <!-- <color name="md_amber_100">#ffecb3</color>-->
 
 </resources>

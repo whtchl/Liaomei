@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.tchl.liaomei.R;
 import com.example.tchl.liaomei.data.entity.Gank;
+import com.example.tchl.liaomei.ui.base.WebActivity;
 import com.example.tchl.liaomei.util.StringStyles;
 
 import java.util.List;
@@ -100,8 +101,8 @@ public class GankListAdapter extends AnimRecyclerViewAdapter<GankListAdapter.Vie
         @OnClick(R.id.ll_gank_parent) void onGank(View v) {
             Gank gank = mGankList.get(getLayoutPosition());
             Log.e("TAG","GankListAdapter tchl onGank onclick");
-/*            Intent intent = WebActivity.newIntent(v.getContext(), gank.url, gank.desc);
-            v.getContext().startActivity(intent);*/
+            Intent intent = WebActivity.newIntent(v.getContext(), gank.url, gank.desc);
+            v.getContext().startActivity(intent);
         }
     }
 }

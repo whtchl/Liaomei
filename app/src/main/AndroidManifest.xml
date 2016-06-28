@@ -27,6 +27,10 @@
         <activity
             android:name=".ui.base.GankActivity"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.base.WebActivity"
+            android:launchMode="singleTask"/>
+
     </application>
 
 </manifest>

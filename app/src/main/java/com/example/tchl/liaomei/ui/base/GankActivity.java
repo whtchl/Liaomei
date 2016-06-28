@@ -54,6 +54,7 @@ public class GankActivity extends ToolbarActivity implements ViewPager.OnPageCha
     private  void initViewPager(){
          mPagerAdapter = new GankPagerAdapter(getSupportFragmentManager(),mGankDate);
          mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.addOnPageChangeListener(this);
     }
     @Override
