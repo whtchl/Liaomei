@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.tchl.liaomei.R;
 import com.example.tchl.liaomei.data.entity.Gank;
-import com.example.tchl.liaomei.ui.base.WebActivity;
+import com.example.tchl.liaomei.ui.WebActivity;
 import com.example.tchl.liaomei.util.StringStyles;
 
 import java.util.List;
