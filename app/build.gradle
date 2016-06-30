@@ -38,6 +38,7 @@ dependencies {
     compile rootProject.ext.dependencies["rxandroid"]
     compile rootProject.ext.dependencies["okhttp"]
     compile rootProject.ext.dependencies["picasso"]
+    compile rootProject.ext.dependencies["numberprogressbar"]
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
     compile project(':smooth-app-bar-layout')
 }

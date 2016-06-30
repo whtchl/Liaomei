@@ -14,5 +14,6 @@
     <string name="share_liaomei_to">分享撩妹到...</string>
 
     <string name="tip_empty_gank">今天休息，没有干货提供！</string>
+    <string name="web_activity_internet_error">网络连接失败 ,请连接网络。</string>
 
 </resources>

@@ -9,4 +9,6 @@ public class Constants {
     public static final int limit = 48;
     public static final int width = 50;
     public static final int height=50;
+
+    public static final int MARQUEE_DELAY = 1788;
 }
