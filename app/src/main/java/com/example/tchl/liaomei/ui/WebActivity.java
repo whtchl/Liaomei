@@ -2,9 +2,13 @@ package com.example.tchl.liaomei.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -24,6 +28,9 @@ import com.example.tchl.liaomei.ui.base.ToolbarActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.daimajia.numberprogressbar.NumberProgressBar;
+import com.example.tchl.liaomei.util.Androids;
+import com.example.tchl.liaomei.util.Toasts;
+
 /**
  * Created by tchl on 2016-06-28.
  */
@@ -129,6 +136,54 @@ public class WebActivity extends ToolbarActivity {
         }
     }
 
+    private void refresh(){  mWebView.reload();}
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_refresh:
+                refresh();
+                return true;
+            case R.id.action_copy_url:
+                String copyDone = getString(R.string.tip_copy_done);
+                Androids.copyToClipBoard(this, mWebView.getUrl(), copyDone);
+                return true;
+
+            case R.id.action_open_url:
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(mUrl);
+                intent.setData(uri);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this,getString(R.string.tip_open_fail),Toast.LENGTH_LONG).show();
+                }
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_BACK:
+                    if (mWebView.canGoBack()) {
+                        mWebView.goBack();
+                    } else {
+                        finish();
+                    }
+                    return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_web, menu);
+        return true;
+    }
     @Override public void setTitle(CharSequence title) {
         super.setTitle(title);
         Log.e(TAG,"tchl title:"+title);
@@ -137,7 +192,7 @@ public class WebActivity extends ToolbarActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-
+        if (mWebView != null) mWebView.destroy();
         ButterKnife.unbind(this);
     }
 
