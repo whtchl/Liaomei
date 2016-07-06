@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,6 +27,8 @@ import com.example.tchl.liaomei.ui.adapter.LiaomeiListAdapter;
 import com.example.tchl.liaomei.ui.base.GankActivity;
 import com.example.tchl.liaomei.ui.base.SwipeRefreshBaseActivity;
 import com.example.tchl.liaomei.util.Once;
+import com.example.tchl.liaomei.util.PreferencesLoader;
+import com.example.tchl.liaomei.util.Toasts;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
 
@@ -45,6 +50,8 @@ public class MainActivity extends SwipeRefreshBaseActivity {
     @Bind(R.id.rv_meizhi)
     RecyclerView mRecyclerView;
 
+
+
     private LiaomeiListAdapter mLiaomeiListAdapter;
     private List<Liaomei> mLiaomeiList;
     private int mPage = 1;
@@ -62,6 +69,38 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         query.limit(0,10);
         mLiaomeiList.addAll(App.sDb.query(query));
         setupRecyclerView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_notifiable);
+        initNotifiableItemState(item);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_trending:
+               /* openGitHubTrending();*//* openGitHubTrending();*/
+                return true;
+            case R.id.action_notifiable:
+                boolean isChecked = !item.isChecked();
+                item.setChecked(isChecked);
+                PreferencesLoader loader = new PreferencesLoader(this);
+                loader.saveBoolean(R.string.action_notifiable, isChecked);
+               // Toasts.showShort(isChecked ? R.string.notifiable_on : R.string.notifiable_off);
+                Toast.makeText(this,isChecked ? getString(R.string.notifiable_on) : getString( R.string.notifiable_off),Toast.LENGTH_LONG).show();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initNotifiableItemState(MenuItem item) {
+        PreferencesLoader loader = new PreferencesLoader(this);
+        item.setChecked(loader.getBoolean(R.string.action_notifiable, true));
     }
 
     private void setupRecyclerView() {

@@ -19,7 +19,14 @@
     <string name="tip_copy_done">复制成功</string>
     <string name="action_copy_url">复制链接</string>
     <string name="action_open_url">打开链接</string>
+    <string name="action_subject">今日肥皂家话题</string>
+    <string name="action_github_login">登录 GitHub 帐号</string>
+    <string name="action_github_trending">今日 GitHub 热门</string>
+    <string name="action_about">可爱的「关于」页面</string>
+    <string name="action_notifiable">每天中午提醒</string>
 
+    <string name="notifiable_on">已经开启提醒</string>
+    <string name="notifiable_off">已经关闭提醒</string>
     <string name="tip_open_fail">打开失败，没有找到可以打开该链接的其它应用 :(</string>
 
 </resources>

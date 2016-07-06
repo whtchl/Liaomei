@@ -31,6 +31,13 @@
             android:name=".ui.WebActivity"
             android:launchMode="singleTask"/>
 
+
+        <receiver android:name=".service.KeepAlarmLiveReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
