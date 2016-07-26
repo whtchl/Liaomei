@@ -26,6 +26,7 @@ import com.example.tchl.liaomei.func.OnLiaomeiTouchListener;
 import com.example.tchl.liaomei.ui.adapter.LiaomeiListAdapter;
 import com.example.tchl.liaomei.ui.base.GankActivity;
 import com.example.tchl.liaomei.ui.base.SwipeRefreshBaseActivity;
+import com.example.tchl.liaomei.util.AlarmManagers;
 import com.example.tchl.liaomei.util.Once;
 import com.example.tchl.liaomei.util.PreferencesLoader;
 import com.example.tchl.liaomei.util.Toasts;
@@ -69,6 +70,7 @@ public class MainActivity extends SwipeRefreshBaseActivity {
         query.limit(0,10);
         mLiaomeiList.addAll(App.sDb.query(query));
         setupRecyclerView();
+        AlarmManagers.register(this);
     }
 
     @Override
