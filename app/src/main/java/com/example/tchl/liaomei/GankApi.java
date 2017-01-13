@@ -14,7 +14,7 @@ import com.example.tchl.liaomei.data.entity.Liaomei;
 //http://gank.io/api//data/福利/10/1
 public interface GankApi {
 
-    @GET("/data/福利/" + DrakeetFactory.meizhiSize + "/{page}")
+    @GET("/data/%E7%A6%8F%E5%88%A9/" + DrakeetFactory.meizhiSize + "/{page}")
     Observable<LiaomeiData> getMeizhiData(
             @Path("page") int page);
 
